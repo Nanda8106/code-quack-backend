@@ -1,0 +1,9 @@
+express
+nodemon
+cors
+mongoose
+body-parser
+helmet
+http
+jsonwebtoken
+bcrypt
