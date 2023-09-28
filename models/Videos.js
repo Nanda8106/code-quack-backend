@@ -19,7 +19,23 @@ const VideosSchema = new mongoose.Schema({
     url: {
         type: String,
         required: true,
-    }
+    },
+    quiz:[
+        {
+            question: {
+                type: String,
+                trim: true
+            },
+            answer: {
+                type: String,
+                trim: true,
+                enum: ["a", "b", "c", "d"]
+            },
+            options: {
+                type: Array
+            }
+        }
+    ]
 
 }, { collection: "Videos", timestamps: true })
 

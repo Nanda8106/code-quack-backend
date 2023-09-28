@@ -16,6 +16,7 @@ import { corsOptions } from "./config/corsConfig.js";
 
 // importing the routes
 import authRoutes from "./routes/auth.js"
+import videosRoutes from "./routes/videos.js"
 
 dotenv.config()
 
@@ -31,7 +32,8 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 app.use(helmet())
 
-app.use("/api/v1", authRoutes)
+app.use("/api/v1/user", authRoutes)
+app.use("/api/v1/auth/videos", videosRoutes)
 
 const PORT = process.env.port ||  3000
 httpServer.listen(PORT, () => {
