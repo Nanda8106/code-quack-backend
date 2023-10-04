@@ -6,6 +6,6 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 const router = express.Router();
 
 router.post("/create", verifyAdminToken, createVideos);
-router.get("/all", verifyToken, fetchVideos);
+router.get("/all", fetchVideos);
 
 export default router;
