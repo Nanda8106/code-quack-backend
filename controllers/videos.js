@@ -163,3 +163,21 @@ export const fetchFavoriteVideos = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" })
     }
 }
+
+
+
+export const searchVideos = async(req, res) => {
+    try {
+
+        const {searchQuery} = req?.query
+        if(!searchQuery){
+            return res.status(400).json({message: "Please enter something to search"})
+        }
+        let videos = await Videos.find({language: new RegExp(searchQuery, "i")}).select("language shortDescription").lean();
+        return res.status(200).json({  videos, message: "Successfully fetched favorites videos" })
+
+    } catch (err) {
+        console.log(`Error - ${err} - [fetchFavoriteVideos]`)
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}

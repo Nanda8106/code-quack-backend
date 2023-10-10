@@ -1,5 +1,5 @@
 import express from "express";
-import { createVideos, fetchFavoriteVideos, fetchQuizData, fetchVideoData, fetchVideos, submitQuiz, updateFavorites } from "../controllers/videos.js";
+import { createVideos, fetchFavoriteVideos, fetchQuizData, fetchVideoData, fetchVideos, searchVideos, submitQuiz, updateFavorites } from "../controllers/videos.js";
 import { verifyAdminToken } from "../middlewares/verifyAdminToken.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
@@ -12,5 +12,6 @@ router.get("/quiz/:videoID", verifyToken, fetchQuizData);
 router.post("/quiz/:videoID", verifyToken, submitQuiz);
 router.put("/favorite", verifyToken, updateFavorites);
 router.get("/favorites/all", verifyToken, fetchFavoriteVideos);
+router.get("/search/videos", verifyToken, searchVideos);
 
 export default router;
