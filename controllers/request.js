@@ -23,3 +23,14 @@ export const requestVideos = async(req, res) => {
         return res.status(500).json({message: "Internal Server Error"})
     }
 }
+
+
+export const fetchRequests = async(req, res) => {
+    try{
+        const requests = await Requests.find({}).populate("user", "name").lean()
+        return res.status(200).json({requests, message: "Successfully fetched requests"})
+    }catch(err){
+        console.log(`Error - ${err?.message} - [fetchRequests]`)
+        return res.status(500).json({message: "Internal Server Error"})
+    }
+}

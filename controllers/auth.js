@@ -74,3 +74,51 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" })
     }
 }
+
+
+export const fetchProfile = async(req, res) => {
+    try{
+        const user = await Users.findOne({_id: req?.user?._id}).select("name email gender").lean()
+        return res.status(200).json({user, message: "Successfully fetched Profile data"})
+    }catch (err) {
+        console.log(`Error - ${err?.message} - [fetchProfile]`)
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+
+
+export const resetPassword = async(req, res) => {
+    try{
+        const { oldPassword, newPassword } = req?.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: "Please enter all the required details" })
+        }
+
+        // checking if email or username exist or not in db
+        let user = await Users.findOne({ _id: req?.user?._id}).select("password").exec()
+        if (!user) {
+            return res.status(401).json({ message: "Something went wrong." })
+        }
+
+
+
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, user?.password) // comparing the hash password stored in db and current user entered password
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: "Your old password is incorrect" })
+        }  
+
+        const hash = await bcrypt.hash(newPassword, 10)  // encrypting the password
+        
+        user.password = hash
+
+        await user.save()
+
+        return res.status(200).json({message: "Successfully reset your password"})
+
+
+    }catch (err) {
+        console.log(`Error - ${err?.message} - [resetPassword]`)
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}
