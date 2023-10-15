@@ -46,7 +46,7 @@ export const createVideos = async (req, res) => {
  */
 export const fetchVideos = async (req, res) => {
     try {
-        let videos = await Videos.find({}).select("language shortDescription").lean();
+        let videos = await Videos.find({}).select("language shortDescription").sort({createdAt: -1}).lean();
         return res.status(200).json({ videos: videos ? videos : [], message: "Successfully fetched videos" })
 
     } catch (err) {
